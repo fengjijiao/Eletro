@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<String, Fragment> fragmentMap;
     private HashSet<String> fragmentSet;
     private String currentFragmentName;
+    private final String FRAGMENT_NAME_DE = "detail", FRAGMENT_NAME_PO = "power",  FRAGMENT_NAME_PR = "powerranking", FRAGMENT_NAME_EC = "electricityconsumptionranking", FRAGMENT_NAME_BS = "buildingstatistics", FRAGMENT_NAME_PL = "powerlist";
     private final Handler mHandler = new Handler();
     private final Runnable mRunnable = new Runnable() {
         @Override
@@ -74,22 +75,26 @@ public class MainActivity extends AppCompatActivity {
     public void initFragmentList() {
         fragmentMap = new HashMap<>();
         fragmentSet = new HashSet<>();
-        fragmentMap.put("detail", new DetailFragment());
-        fragmentMap.put("powerranking", new PowerRankingFragment());
-        fragmentMap.put("electricityconsumptionranking", new ElectricityConsumptionRankingFragment());
-        fragmentMap.put("buildingstatistics", new BuildingStatisticsFragment());
-        fragmentMap.put("powerlist", new PowerListFragment());
-        switchFragment("detail");
+        fragmentMap.put(FRAGMENT_NAME_PR, new PowerRankingFragment());
+        fragmentMap.put(FRAGMENT_NAME_EC, new ElectricityConsumptionRankingFragment());
+        fragmentMap.put(FRAGMENT_NAME_BS, new BuildingStatisticsFragment());
+        fragmentMap.put(FRAGMENT_NAME_PL, new PowerListFragment());
+        fragmentMap.put(FRAGMENT_NAME_DE, new DetailFragment());
+        switchFragment(FRAGMENT_NAME_PR);
+        switchFragment(FRAGMENT_NAME_EC);
+        switchFragment(FRAGMENT_NAME_BS);
+        switchFragment(FRAGMENT_NAME_PL);
+        switchFragment(FRAGMENT_NAME_DE);
     }
 
     public void initView() {
         bottom_navigation = findViewById(R.id.bottom_navigation);
         bottom_navigation.setOnNavigationItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.page_1) Log.i(TAG, "switchFragment Code: " + switchFragment("detail"));
-            if(item.getItemId() == R.id.page_2) Log.i(TAG, "switchFragment Code: " + switchFragment("powerranking"));
-            if(item.getItemId() == R.id.page_3) Log.i(TAG, "switchFragment Code: " + switchFragment("electricityconsumptionranking"));
-            if(item.getItemId() == R.id.page_4) Log.i(TAG, "switchFragment Code: " + switchFragment("buildingstatistics"));
-            if(item.getItemId() == R.id.page_5) Log.i(TAG, "switchFragment Code: " + switchFragment("powerlist"));
+            if(item.getItemId() == R.id.page_1) Log.i(TAG, "switchFragment Code: " + switchFragment(FRAGMENT_NAME_DE));
+            if(item.getItemId() == R.id.page_2) Log.i(TAG, "switchFragment Code: " + switchFragment(FRAGMENT_NAME_PR));
+            if(item.getItemId() == R.id.page_3) Log.i(TAG, "switchFragment Code: " + switchFragment(FRAGMENT_NAME_EC));
+            if(item.getItemId() == R.id.page_4) Log.i(TAG, "switchFragment Code: " + switchFragment(FRAGMENT_NAME_BS));
+            if(item.getItemId() == R.id.page_5) Log.i(TAG, "switchFragment Code: " + switchFragment(FRAGMENT_NAME_PL));
             return true;
         });
     }

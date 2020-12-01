@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Eletro</string>
+    <string name="app_name">用电</string>
     <string name="details_title">24小时用电明细</string>
     <string name="power_title">最近功率排行</string>
     <string name="level_title">最近用电排行</string>
@@ -13,7 +13,7 @@
     <string name="level">排行</string>
     <string name="statistics">统计</string>
     <string name="briefing">简报</string>
-    <string name="avg">平均</string>
+    <string name="avg">平均值</string>
     <string name="electricity_consumption">用电量 kwh</string>
     <string name="recent_power">最近功率 kw</string>
 </resources>

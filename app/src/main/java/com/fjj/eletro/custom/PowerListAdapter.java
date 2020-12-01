@@ -124,11 +124,21 @@ public class PowerListAdapter extends RecyclerView.Adapter<PowerListAdapter.View
         viewHolder.getTextView_currentpower().setText(StringUtils.format("%s: %.2f kwh", StringUtils.getString(R.string.current_power), localDataSet.get(position).getCurrentpower()));
         viewHolder.getTextView_starttime().setText(StringUtils.format("%s: %s", StringUtils.getString(R.string.start_time), localDataSet.get(position).getStarttime()));
         viewHolder.getTextView_endtime().setText(StringUtils.format("%s: %s", StringUtils.getString(R.string.end_time), localDataSet.get(position).getEndtime()));
-        //viewHolder.getImageView_type().setImageResource(localDataSet.get(position).getType());
+        viewHolder.getImageView_type().setImageResource(getTypeImageResource(localDataSet.get(position).getType()));
     }
 
     @Override
     public int getItemCount() {
         return localDataSet.size();
+    }
+
+    public int getTypeImageResource(int type) {
+        if(type == 1) {
+            return R.drawable.high;
+        }else if(type == 2) {
+            return R.drawable.mid;
+        }else {
+            return R.drawable.low;
+        }
     }
 }
