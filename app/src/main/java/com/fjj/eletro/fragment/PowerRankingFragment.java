@@ -33,7 +33,7 @@ public class PowerRankingFragment extends Fragment implements FragmentI {
     public void initChart() {
         AAChartModel aaChartModel = new AAChartModel()
                 .chartType(AAChartType.Column)
-                .title("宿舍最近功率排行")
+                .title(StringUtils.getString(R.string.power_title))
                 .dataLabelsEnabled(false)
                 .legendEnabled(false)
                 .yAxisGridLineWidth(0f)

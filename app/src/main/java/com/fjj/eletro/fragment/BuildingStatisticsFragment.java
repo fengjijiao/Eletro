@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AAChartModel;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AAChartView;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AASeriesElement;
@@ -36,7 +37,7 @@ public class BuildingStatisticsFragment extends Fragment implements FragmentI {
     public void initChart() {
         AAChartModel aaChartModel = new AAChartModel()
                 .chartType(AAChartType.Pie)
-                .title("宿舍分区统计")
+                .title(StringUtils.getString(R.string.statistics_title))
                 .dataLabelsEnabled(true)
                 .touchEventEnabled(true)
                 .series(getNewData());

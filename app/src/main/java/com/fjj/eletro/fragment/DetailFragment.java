@@ -39,7 +39,7 @@ public class DetailFragment extends Fragment implements FragmentI {
         AAOptions aaOptions = new AAOptions()
                 .chart(new AAChart().type(AAChartType.Area))
                 .xAxis(aaxAxis)
-                .title(new AATitle().text("宿舍24小时用电明细"))
+                .title(new AATitle().text(StringUtils.getString(R.string.details_title)))
                 .yAxis(aayAxis)
                 .series(getNewData());
         aaChartView.aa_drawChartWithChartOptions(aaOptions);

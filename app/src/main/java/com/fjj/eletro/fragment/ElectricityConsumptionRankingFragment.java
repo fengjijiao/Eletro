@@ -33,7 +33,7 @@ public class ElectricityConsumptionRankingFragment extends Fragment implements F
     public void initChart() {
         AAChartModel aaChartModel = new AAChartModel()
                 .chartType(AAChartType.Column)
-                .title("宿舍最近用电排行")
+                .title(StringUtils.getString(R.string.level_title))
                 .dataLabelsEnabled(false)
                 .legendEnabled(false)
                 .yAxisGridLineWidth(0f)
