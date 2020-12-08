@@ -1,5 +1,6 @@
 package com.fjj.eletro.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.blankj.utilcode.util.ColorUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AAChartView;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AASeriesElement;
@@ -19,6 +21,7 @@ import com.fjj.eletro.AAChartCoreLib.AAOptionsModel.AATitle;
 import com.fjj.eletro.AAChartCoreLib.AAOptionsModel.AAXAxis;
 import com.fjj.eletro.AAChartCoreLib.AAOptionsModel.AAYAxis;
 import com.fjj.eletro.R;
+import com.fjj.eletro.activity.MainActivity;
 import com.fjj.eletro.dataSet.ParserJson;
 
 public class DetailFragment extends Fragment implements FragmentI {
@@ -47,6 +50,7 @@ public class DetailFragment extends Fragment implements FragmentI {
 
     public AASeriesElement[] getNewData() {
         int total = ParserJson.getDataSet().getDormitoryUsedTotal();
+        total = Math.min(total, 5);//
         AASeriesElement[] aaSeriesElements = new AASeriesElement[total+1];
         String[] nameArr = ParserJson.getDataSet().getNameArray();
         for (int i= 0;i< total;i++) {

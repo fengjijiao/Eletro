@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">用电</string>
+    <string name="app_name">校园大数据用电安全智能检测系统</string>
     <string name="details_title">24小时用电明细</string>
     <string name="power_title">最近功率排行</string>
     <string name="level_title">最近用电排行</string>
-    <string name="statistics_title">分区统计</string>
+    <string name="statistics_title">用电量分区统计</string>
     <string name="briefing_title">用电简报</string>
     <string name="current_power">当前功率</string>
     <string name="end_time">结束时间</string>

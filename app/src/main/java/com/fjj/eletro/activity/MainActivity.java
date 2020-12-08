@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             new Thread(() -> {
                 try {
-                    //String jsonData = HttpUtils.get("https://raw.githubusercontent.com/allenbyus/ibsc/master/uploads/a.json", "UTF-8", null);
                     String jsonData = HttpUtils.post("http://10.1.2.5:9078/load_data", "UTF-8", null, "", HttpURLConnection.HTTP_CREATED);
                     Log.i(TAG, "jsonData Length: "+jsonData.length());
                     ParserJson.updateDataSet(jsonData);
@@ -108,13 +108,19 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.fragment, Objects.requireNonNull(fragmentMap.get(name)), name);
             fragmentSet.add(name);
         }else {
-            if (currentFragmentName != null) fragmentTransaction.hide(fragmentMap.get(currentFragmentName));
+            if (currentFragmentName != null) hideAllFragment(fragmentTransaction);
             fragmentTransaction.show(Objects.requireNonNull(fragmentMap.get(name)));
         }
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
         currentFragmentName = name;
         return 1;
+    }
+
+    public void hideAllFragment(FragmentTransaction fragmentTransaction) {
+        for(Map.Entry<String, Fragment> entry: fragmentMap.entrySet()) {
+            fragmentTransaction.hide(Objects.requireNonNull(entry.getValue()));
+        }
     }
 
     private void showToast(String text) {
