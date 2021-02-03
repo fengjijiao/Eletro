@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/notification">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="@string/notification_enable_key"
+            app:title="@string/notification_enable"
+            app:summaryOn="@string/notification_enable_summary_on"
+            app:summaryOff="@string/notification_enable_summary_off" />
+        <EditTextPreference
+            android:inputType="number"
+            app:defaultValue="5.8"
+            app:dependency="@string/notification_enable_key"
+            app:key="@string/notification_threshold_key"
+            app:title="@string/notification_threshold"
+            app:singleLineTitle="true"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -16,4 +16,13 @@
     <string name="avg">平均值</string>
     <string name="electricity_consumption">用电量 kwh</string>
     <string name="recent_power">最近功率 kw</string>
+    <string name="settings">设置</string>
+    <string name="notification">通知</string>
+    <string name="notification_enable">开启</string>
+    <string name="notification_enable_summary_on">已开启通知</string>
+    <string name="notification_enable_summary_off">已关闭通知</string>
+    <string name="notification_enable_key">notification_enable</string>
+    <string name="notification_threshold">阈值(kwh)</string>
+    <string name="notification_threshold_key">notification_threshold</string>
+    <string name="notification_threshold_summary">当存在用电功率超过该阈值时将会发送通知消息。</string>
 </resources>

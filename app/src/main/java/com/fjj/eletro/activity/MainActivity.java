@@ -1,16 +1,25 @@
 package com.fjj.eletro.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.blankj.utilcode.constant.RegexConstants;
+import com.blankj.utilcode.util.RegexUtils;
 import com.fjj.eletro.R;
+import com.fjj.eletro.dataSet.Moniter;
 import com.fjj.eletro.dataSet.ParserJson;
 import com.fjj.eletro.fragment.BuildingStatisticsFragment;
 import com.fjj.eletro.fragment.DetailFragment;
@@ -29,7 +38,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private String TAG = "MainActivity";
+    private final String TAG = "MainActivity";
     private FragmentManager fragmentManager;
     private BottomNavigationView bottom_navigation;
     private HashMap<String, Fragment> fragmentMap;
@@ -41,15 +50,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             new Thread(() -> {
+                String thresholdStr = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString(getString(R.string.notification_threshold_key), "5.8");
+                new Thread(() -> {
+                    if(RegexUtils.isMatch(RegexConstants.REGEX_POSITIVE_FLOAT, thresholdStr)) {
+                        Moniter.TriggerMoniterPower(MainActivity.this, Double.parseDouble(thresholdStr));
+                    }
+                }).start();
                 try {
                     String jsonData = HttpUtils.post("http://10.1.2.5:9078/load_data", "UTF-8", null, "", HttpURLConnection.HTTP_CREATED);
                     Log.i(TAG, "jsonData Length: "+jsonData.length());
                     ParserJson.updateDataSet(jsonData);
                     for(String name: fragmentSet) {
                         runOnUiThread(() -> {
-                            ((FragmentI)fragmentMap.get(name)).updateData();
+                            ((FragmentI) Objects.requireNonNull(fragmentMap.get(name))).updateData();
                         });
                     }
+                    new Thread(() -> {
+                        if(RegexUtils.isMatch(RegexConstants.REGEX_POSITIVE_FLOAT, thresholdStr)) {
+                            Moniter.TriggerMoniterPower(MainActivity.this, Double.parseDouble(thresholdStr));
+                        }
+                    }).start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -66,6 +86,21 @@ public class MainActivity extends AppCompatActivity {
         initFragmentManager();
         initFragmentList();
         mHandler.postDelayed(mRunnable, 3*1000);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if( item.getItemId() == R.id.main_menu_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void initFragmentManager() {

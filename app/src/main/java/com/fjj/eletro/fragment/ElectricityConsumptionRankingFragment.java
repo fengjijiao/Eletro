@@ -1,6 +1,5 @@
 package com.fjj.eletro.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.blankj.utilcode.util.ColorUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AAChartModel;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AAChartView;
 import com.fjj.eletro.AAChartCoreLib.AAChartCreator.AASeriesElement;
 import com.fjj.eletro.AAChartCoreLib.AAChartEnum.AAChartType;
 import com.fjj.eletro.R;
-import com.fjj.eletro.activity.MainActivity;
 import com.fjj.eletro.dataSet.ParserJson;
 
 import java.util.Map;
