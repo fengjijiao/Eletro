@@ -25,4 +25,8 @@
     <string name="notification_threshold">阈值(kwh)</string>
     <string name="notification_threshold_key">notification_threshold</string>
     <string name="notification_threshold_summary">当存在用电功率超过该阈值时将会发送通知消息。</string>
+    <string name="notification_threshold_title_format">%s超过警报阈值！！！</string>
+    <string name="notification_threshold_context_format">当前功率：%.2f kwh</string>
+    <string name="notification_threshold_intent_action">Alarm</string>
+    <string name="notification_threshold_intent_param_dormitory_no">dormitoryNo</string>
 </resources>

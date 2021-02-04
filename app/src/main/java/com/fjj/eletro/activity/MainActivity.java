@@ -39,6 +39,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
+    private static MainActivity instance;
     private FragmentManager fragmentManager;
     private BottomNavigationView bottom_navigation;
     private HashMap<String, Fragment> fragmentMap;
@@ -50,12 +51,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             new Thread(() -> {
+                boolean isEn = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getBoolean(getString(R.string.notification_enable_key), true);
                 String thresholdStr = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString(getString(R.string.notification_threshold_key), "5.8");
-                new Thread(() -> {
-                    if(RegexUtils.isMatch(RegexConstants.REGEX_POSITIVE_FLOAT, thresholdStr)) {
-                        Moniter.TriggerMoniterPower(MainActivity.this, Double.parseDouble(thresholdStr));
-                    }
-                }).start();
                 try {
                     String jsonData = HttpUtils.post("http://10.1.2.5:9078/load_data", "UTF-8", null, "", HttpURLConnection.HTTP_CREATED);
                     Log.i(TAG, "jsonData Length: "+jsonData.length());
@@ -65,11 +62,13 @@ public class MainActivity extends AppCompatActivity {
                             ((FragmentI) Objects.requireNonNull(fragmentMap.get(name))).updateData();
                         });
                     }
-                    new Thread(() -> {
-                        if(RegexUtils.isMatch(RegexConstants.REGEX_POSITIVE_FLOAT, thresholdStr)) {
-                            Moniter.TriggerMoniterPower(MainActivity.this, Double.parseDouble(thresholdStr));
-                        }
-                    }).start();
+                    if (isEn) {
+                        new Thread(() -> {
+                            if(RegexUtils.isMatch(RegexConstants.REGEX_POSITIVE_FLOAT, thresholdStr)) {
+                                Moniter.TriggerMoniterPower(MainActivity.this, Double.parseDouble(thresholdStr));
+                            }
+                        }).start();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -82,10 +81,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
         initView();
         initFragmentManager();
         initFragmentList();
         mHandler.postDelayed(mRunnable, 3*1000);
+        initNotificationActionClicker();
     }
 
     @Override
@@ -120,6 +121,19 @@ public class MainActivity extends AppCompatActivity {
         switchFragment(FRAGMENT_NAME_BS);
         switchFragment(FRAGMENT_NAME_PL);
         switchFragment(FRAGMENT_NAME_DE);
+    }
+
+    public void initNotificationActionClicker() {
+        Intent intent = getIntent();
+        if (intent.getAction().equals(getString(R.string.notification_threshold_intent_action))) {
+            notificationActionClickEvent(intent.getStringExtra(getString(R.string.notification_threshold_intent_param_dormitory_no)));
+        }
+    }
+
+    public void notificationActionClickEvent(String dormitoryNo) {
+        if (!dormitoryNo.equals("")) {
+            showToast( getString(R.string.notification_threshold_title_format, dormitoryNo));
+        }
     }
 
     public void initView() {
@@ -160,5 +174,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToast(String text) {
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
     }
 }
